@@ -1,0 +1,138 @@
+package Controller;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class RedesController {
+	public static void main(String[]args) {
+		//ip();
+		//ping();
+	}
+	
+	//-----------------------------------------------
+	
+	private static String os() {
+		String osna = System.getProperty("os.name");
+		return osna;
+		
+	}
+	
+	//-----------------------------------------------
+	
+	public static void ip() {
+		String getso = os();
+		String pros="";
+		if(getso.contains("Windows")) {
+			pros = "ipconfig";
+		}else {
+			pros = "ifconfig";
+		}
+		try {
+			Process t = Runtime.getRuntime().exec(pros);
+			InputStream val1 = t.getInputStream();
+			InputStreamReader red = new InputStreamReader(val1);
+			BufferedReader buffer = new BufferedReader(red);
+			String redres = buffer.readLine();
+			int adapc=0;
+			int lc =0;
+			int gt =0;
+			ArrayList tf = new ArrayList();
+			ArrayList td = new ArrayList();
+			ArrayList ty = new ArrayList();
+			ArrayList bigr = new ArrayList();
+			bigr.add(redres);
+			while(redres != null) {
+				if(redres.contains("Adaptador")) {
+					tf.add(lc);
+					
+				}
+				if(redres.contains("IPv4")) {
+					td.add(gt);
+				}
+				lc+=1;
+				gt+=1;
+				redres = buffer.readLine();
+				bigr.add(redres);
+				
+			}
+			int cou = tf.size();
+			int cou2 = td.size();
+			int vc=0;
+			for(int c=0;c<cou2;c++) {
+			
+				int v1=(int) td.get(c);
+				
+				for(int d=0;d<cou;d++) {
+					
+					int v2=(int) tf.get(d);
+					
+					if(v2<v1) {
+						if(vc<v2) {
+							vc = v2;
+						}
+					}
+					}
+				ty.add(vc);
+			}
+			lc=0;
+			int bigrl = bigr.size();
+			for(int tt=0;tt<bigrl;tt++) {
+				if(ty.contains(tt)) {
+					System.out.println(bigr.get(tt));
+				}
+				if(td.contains(tt)) {
+					System.out.println(bigr.get(tt));
+				}
+			}
+			buffer.close();
+			red.close();
+			val1.close();
+			}
+			catch(Exception a) {
+				String emsg = a.getMessage();
+				System.err.println(emsg);
+			}
+	}
+	
+	//-----------------------------------------------
+	
+	public static int ping() {
+		String getso = os();
+		String pros="";
+		if(getso.contains("Windows")) {
+			pros = "PING -4 -n 10 www.google.com.br";
+		}else {
+			pros = "PING -4 -c 10 www.google.com.br";
+		}
+		try {
+			//System.out.println(pros);
+			Process t = Runtime.getRuntime().exec(pros);
+			InputStream val1 = t.getInputStream();
+			InputStreamReader red = new InputStreamReader(val1);
+			BufferedReader buffer = new BufferedReader(red);
+			String redres = buffer.readLine();
+			int valmed=0;
+			while(redres != null) {
+				if(redres.contains("Resposta")) {
+					String[] bg = redres.split(" ");
+					String h = bg[4].split("=")[1];
+					int g = Integer.parseInt(h.split("m")[0]);
+					System.out.println(g);
+					valmed+=g;
+				}
+				redres = buffer.readLine();
+			}
+			System.out.println("média : "+((double) valmed/10)+"ms");
+			buffer.close();
+			red.close();
+			val1.close();
+			}
+			catch(Exception a) {
+				String emsg = a.getMessage();
+				System.err.println(emsg);
+			}
+		return 0;
+	} 
+}

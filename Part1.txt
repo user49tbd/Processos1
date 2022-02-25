@@ -1,0 +1,21 @@
+package view;
+import javax.swing.JOptionPane;
+
+import Controller.RedesController;
+public class MainClass {
+	public static void main(String[]args) {
+		RedesController contro =new RedesController();
+		int actdo = 0;
+		while(actdo != 3) {
+			actdo=Integer.parseInt(JOptionPane.showInputDialog("Digite:"+"\n"+"1-Para obter o IP"+"\n"+"2-Para obter o Ping"+"\n"+"3-Para finalizar"));
+		switch(actdo) {
+		case 1:
+			contro.ip();
+			break;
+		case 2:
+			contro.ping();
+			break;
+		}
+	}
+}
+}
